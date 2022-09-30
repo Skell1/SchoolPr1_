@@ -11,8 +11,6 @@ public class Main {
         int m = Integer.parseInt(firstLine[1]);
         int s = Integer.parseInt(firstLine[2]);
         int max = (Math.max(n,m));
-        boolean keyA = true, keyB = true;
-        int beforA = 0,beforB=0;
 
         ArrayList<Integer> first = new ArrayList<>();
         ArrayList<Integer> second = new ArrayList<>();
@@ -20,32 +18,19 @@ public class Main {
             String[] splitLine = in.nextLine().split(" ");
             String a = splitLine[0];
             String b = splitLine[1];
-            if (keyA) {
-                if (beforA<s) {
-                if (!a.equals("-")) {
-                    int numb = Integer.parseInt(a);
-                        beforA+=numb;
-                        if (beforA<=s) {
-                            first.add(beforA);
-                        }
-                } else keyA = false;
-                } else keyA = false;
+            if (!a.equals("-")) {
+                first.add(Integer.parseInt(a));
             }
-            if (keyB) {
-                if (beforB<s) {
-                    if (!b.equals("-")) {
-                        int numb = Integer.parseInt(b);
-                        beforB += numb;
-                        if (beforB <= s) {
-                            second.add(beforB);
-                        }
-                    } else keyB = false;
-                } else keyB = false;
+            if (!b.equals("-")) {
+               second.add(Integer.parseInt(b));
             }
-            if (!keyB && !keyA)
-                break;
         }
         in.close();
+
+        first.removeIf(element -> element>s);
+        second.removeIf(element -> element>s);
+
+
 
         int res = find(first,second,s);
         System.out.println(res);
@@ -55,9 +40,17 @@ public class Main {
         int sizeFirst=first.size();
         int sizeSecond=second.size();
         if (sizeFirst+sizeSecond==0) return 0;
-        int a = first.get(sizeFirst-1);
-        int b = second.get(sizeSecond-1);
-        
+        int a,b;
+        if (sizeFirst==0){
+            a = 0;
+        }
+        else a = first.get(sizeFirst-1);
+        if (sizeSecond==0){
+            b = 0;
+        }
+        else b = second.get(sizeSecond-1);
+
+
         while (a+b>s){
             if (a==0 && b == 0){
                 break;
@@ -82,7 +75,6 @@ public class Main {
         }
         return sizeFirst+sizeSecond;
     }
-
 }
 
 
